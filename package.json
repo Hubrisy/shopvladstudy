@@ -1,0 +1,78 @@
+{
+  "name": "react-template",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.112",
+    "@types/react": "^18.3.10",
+    "@types/react-dom": "^18.3.0",
+    "axios": "^1.7.7",
+    "body-parser": "1.20.3",
+    "cors": "2.8.5",
+    "express": "4.21.1",
+    "keyv": "5.2.1",
+    "keyv-file": "5.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "styled-components": "6.1.13",
+    "typescript": "5.5.4",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "server": "node ./server/index.js",
+    "dev": "nodemon ./server/index.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src --ext .ts,.tsx -c ./.eslintrc.js",
+    "lint-fix": "eslint ./src --ext .ts,.tsx -c ./.eslintrc.js --fix",
+    "ts-lint": "tsc --noEmit",
+    "prepare": "husky install",
+    "precommit": "npm run lint-fix && npm run ts-lint"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@tsconfig/create-react-app": "2.0.5",
+    "@typescript-eslint/parser": "7.18.0",
+    "eslint": "8.57.1",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-airbnb-typescript": "18.0.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-import": "2.30.0",
+    "eslint-plugin-jsx-a11y": "6.10.0",
+    "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-react": "7.37.1",
+    "eslint-plugin-react-hooks": "4.6.2",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "eslint-plugin-unused-imports": "4.1.4",
+    "husky": "^8.0.0",
+    "nodemon": "^3.1.7",
+    "prettier": "3.3.3"
+  },
+  "overrides": {
+    "typescript": "5.5.4"
+  }
+}
