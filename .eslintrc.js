@@ -74,6 +74,7 @@ module.exports = {
         "unused-imports/no-unused-imports": "error", // Automatically remove unused imports
         "no-unused-vars": "off", // Disable unused variables rule (covered by unused-imports plugin)
         "@typescript-eslint/naming-convention": "off", // Disable naming convention rule (can be enabled if desired)
+        "react/jsx-no-useless-fragment": "off",
         "unused-imports/no-unused-vars": [
           "warn",
           {

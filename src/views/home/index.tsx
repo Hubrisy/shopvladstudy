@@ -1,11 +1,13 @@
 import React from "react"
 
-import { Container } from "./styled"
+import { Banner } from "../../components/banner"
+import { Catalog } from "../../components/catalog"
 
 export const Home = () => {
   return (
-    <Container>
-      <h1>Home</h1>
-    </Container>
+    <>
+      <Banner />
+      <Catalog />
+    </>
   )
 }
