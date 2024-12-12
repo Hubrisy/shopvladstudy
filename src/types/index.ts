@@ -1,11 +1,12 @@
 export enum SessionStorage {
-  xyu = "xyu",
+  cart = "cart",
 }
 
 export interface Product {
   title: string
   img: string
   price: number
-  id: string
+  id: number
   description: string
+  discount: number
 }

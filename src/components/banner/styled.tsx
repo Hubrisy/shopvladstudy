@@ -15,7 +15,9 @@ interface ImgProps {
 }
 
 export const BannerBlockStyled = styled.div`
-  margin-top: 50px;
+  margin: 0 auto;
+  margin-top: 70px;
+  max-width: 1250px;
   width: 100%;
   height: 512px;
   background-color: #c1dcdc;
@@ -59,7 +61,7 @@ export const InputBlock = styled.div`
   margin-top: 50px;
   max-width: 450px;
   position: relative;
-  z-index: 1;
+  z-index: 5;
 
   & > input {
     padding-left: 18px;

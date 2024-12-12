@@ -1,7 +1,7 @@
 import type { SessionStorage } from "../types"
 import { handleError } from "./error"
 
-export const setStorage = (key: SessionStorage, value: string) => {
+export const setToSessionStorage = (key: SessionStorage, value: string) => {
   try {
     sessionStorage.setItem(key, value)
   } catch (e) {
@@ -9,7 +9,7 @@ export const setStorage = (key: SessionStorage, value: string) => {
   }
 }
 
-export const getStorage = (key: SessionStorage) => {
+export const getToSessionStorage = (key: SessionStorage) => {
   try {
     return sessionStorage.getItem(key)
   } catch (e) {

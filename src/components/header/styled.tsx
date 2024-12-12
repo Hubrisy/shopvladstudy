@@ -1,5 +1,15 @@
 import styled from "styled-components"
 
+export const HeaderContainer = styled.div`
+  width: 1260px;
+  position: fixed;
+  top: 0;
+  padding: 20px 0 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  z-index: 10;
+`
 export const HeaderStyled = styled.div`
   display: flex;
   justify-content: space-between;
@@ -44,4 +54,22 @@ export const UserBlock = styled.div`
 `
 export const StyledImg = styled.img`
   width: 23px;
+`
+
+export const CartImgBlock = styled.div`
+  background-color: white;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
+`
+export const CartHaveItem = styled.div`
+  height: 6px;
+  width: 6px;
+  background-color: red;
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  border-radius: 50%;
 `

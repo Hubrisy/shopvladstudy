@@ -2,9 +2,11 @@ import styled from "styled-components"
 
 export const ItemStyledContainer = styled.div`
   width: 100%;
-  margin-top: 50px;
   display: flex;
   justify-content: space-between;
+  max-width: 1250px;
+  margin: 0 auto;
+  margin-top: 100px;
 `
 
 export const ItemImgBlock = styled.div`

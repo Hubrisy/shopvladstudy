@@ -4,6 +4,7 @@ import React, {
   type PropsWithChildren,
   type SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react"
 
@@ -27,6 +28,14 @@ export const ModalContextProvider: React.FC<PropsWithChildren<{}>> = ({
   children,
 }) => {
   const [modal, setModal] = useState<ModalContextType["modal"]>(undefined)
+
+  useEffect(() => {
+    if (modal) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "scroll"
+    }
+  }, [modal])
 
   return (
     <ModalContext.Provider value={{ modal, setModal }}>
