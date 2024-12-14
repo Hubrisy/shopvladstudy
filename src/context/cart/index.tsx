@@ -1,7 +1,8 @@
 import type { Dispatch, PropsWithChildren, SetStateAction } from "react"
 import React, { createContext, useContext, useEffect, useState } from "react"
 
-import { type Product, SessionStorage } from "../../types"
+import type { CouponItem, Product } from "../../types"
+import { SessionStorage } from "../../types"
 import { getToSessionStorage, setToSessionStorage } from "../../utils/storage"
 
 export interface CartItem extends Product {
@@ -13,6 +14,8 @@ interface CartProps {
   setCart: Dispatch<SetStateAction<Array<CartItem>>>
   isInitialized: boolean
   setIsInitialized: Dispatch<SetStateAction<boolean>>
+  coupon?: CouponItem
+  setCoupon: Dispatch<SetStateAction<CouponItem | undefined>>
 }
 
 const defaultCart: CartProps = {
@@ -20,6 +23,8 @@ const defaultCart: CartProps = {
   setCart: () => {},
   isInitialized: false,
   setIsInitialized: () => {},
+  coupon: undefined,
+  setCoupon: () => {},
 }
 
 const CartContext = createContext<CartProps>(defaultCart)
@@ -27,6 +32,7 @@ const CartContext = createContext<CartProps>(defaultCart)
 export const CartContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
+  const [coupon, setCoupon] = useState<CouponItem | undefined>(undefined)
   const [cart, setCart] = useState<CartItem[]>([])
   const [isInitialized, setIsInitialized] = useState(false)
   console.log(cart)
@@ -49,7 +55,14 @@ export const CartContextProvider: React.FC<PropsWithChildren> = ({
 
   return (
     <CartContext.Provider
-      value={{ cart, setCart, isInitialized, setIsInitialized }}
+      value={{
+        cart,
+        setCart,
+        coupon,
+        setCoupon,
+        isInitialized,
+        setIsInitialized,
+      }}
     >
       {children}
     </CartContext.Provider>
