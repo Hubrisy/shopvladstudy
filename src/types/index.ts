@@ -11,3 +11,10 @@ export interface Product {
   description: string
   discount: number
 }
+
+export interface CouponItem {
+  id: number
+  code: string
+  discount: number
+  type: "percentage" | "fixed"
+}

@@ -1,5 +1,6 @@
 import React from "react"
 
+import { CouponBlock } from "../../components/coupon"
 import { Input } from "../../components/input"
 import { useCartContext } from "../../context/cart"
 import { useOrderSummary } from "../../hooks/useOrderSummary"
@@ -7,7 +8,6 @@ import {
   ConfirmContentBlock,
   ConfirmPageContainer,
   ConfrimPageBlock,
-  CouponBlock,
   FinalSummaryBlock,
   FinalSummaryContainer,
   FormBlock,
@@ -23,7 +23,8 @@ import {
 
 export const ConfirmPage = () => {
   const { cart } = useCartContext()
-  const { summaryDiscount, summaryPrice } = useOrderSummary()
+  const { summaryDiscount, couponDiscount, finalPrice, summaryPrice } =
+    useOrderSummary()
 
   return (
     <ConfirmPageContainer>
@@ -79,22 +80,29 @@ export const ConfirmPage = () => {
                 </SummaryCartItemBlock>
               ))}
             </SummaryCartBlock>
-            <CouponBlock>
-              <Input placeholder="Coupon code" />
-              <button type="button">Apply</button>
-            </CouponBlock>
+            <CouponBlock />
             <FinalSummaryContainer>
+              <FinalSummaryBlock>
+                <div>Price:</div>
+                <div>{summaryPrice}$</div>
+              </FinalSummaryBlock>
               <FinalSummaryBlock color="red">
                 <div>Discount:</div>
                 <div>-{summaryDiscount}$</div>
               </FinalSummaryBlock>
+              {!!couponDiscount && (
+                <FinalSummaryBlock color="red">
+                  <div>Coupon discount:</div>
+                  <div>-{couponDiscount.toFixed(2)}$</div>
+                </FinalSummaryBlock>
+              )}
               <FinalSummaryBlock>
                 <div>Shipping:</div>
                 <div>free</div>
               </FinalSummaryBlock>
               <FinalSummaryBlock fontSize="24px" fontWeight="600">
                 <div>Total:</div>
-                <div>{summaryPrice}$</div>
+                <div>{finalPrice}$</div>
               </FinalSummaryBlock>
             </FinalSummaryContainer>
           </SummaryBlock>
