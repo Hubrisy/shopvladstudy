@@ -1,13 +1,20 @@
-import FlowerOne from "../images/data/flower1.png"
-import FlowerTwo from "../images/data/flower2.png"
-import FlowerThree from "../images/data/flower3.png"
+import AloeOne from "../images/data/aloe1.png"
+import AloeTwo from "../images/data/aloe2.png"
+import AloeThree from "../images/data/aloe3.png"
+import FiddleOne from "../images/data/fiddle1.png"
+import FiddleTwo from "../images/data/fiddle2.png"
+import FiddleThree from "../images/data/fiddle3.png"
+import PothosOne from "../images/data/pothos1.png"
+import PothosTwo from "../images/data/pothos2.png"
+import PothosThree from "../images/data/pothos3.png"
 import type { Product } from "../types"
 
 export const data: Array<Product> = [
   {
     discount: 50,
     title: "Aloe Vera",
-    img: FlowerOne,
+    titleImg: AloeOne,
+    img: [AloeOne, AloeTwo, AloeThree],
     price: 140,
     id: 1,
     description:
@@ -16,7 +23,8 @@ export const data: Array<Product> = [
   {
     discount: 30,
     title: "Fiddle Leaf Fig",
-    img: FlowerTwo,
+    titleImg: FiddleOne,
+    img: [FiddleOne, FiddleTwo, FiddleThree],
     price: 90,
     id: 2,
     description:
@@ -25,7 +33,8 @@ export const data: Array<Product> = [
   {
     discount: 120,
     title: "Lavender",
-    img: FlowerThree,
+    titleImg: PothosOne,
+    img: [PothosOne, PothosTwo, PothosThree],
     price: 350,
     id: 3,
     description:

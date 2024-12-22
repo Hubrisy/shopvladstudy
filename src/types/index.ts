@@ -4,7 +4,8 @@ export enum SessionStorage {
 
 export interface Product {
   title: string
-  img: string
+  titleImg: string
+  img: Array<string>
   price: number
   id: number
   description: string

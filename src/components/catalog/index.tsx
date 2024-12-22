@@ -17,7 +17,7 @@ export const Catalog = () => {
       {data.map((item) => (
         <CatalogItem key={item.id}>
           <StyledLink to={`${Routes.product}/${item.id}`}>
-            <CatalogImg src={item.img} />
+            <CatalogImg src={item.titleImg} />
             <CatalogItemName>{item.title}</CatalogItemName>
             <CatalogItemPrice>{item.price}$</CatalogItemPrice>
           </StyledLink>

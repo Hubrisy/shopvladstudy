@@ -1,5 +1,6 @@
 import React from "react"
 
+import { SliderComponent } from "../../components/slider"
 import type { Product } from "../../types"
 import {
   AddToCartBtn,
@@ -22,7 +23,11 @@ export const ProductUI: React.FC<Props> = ({ item, onAddToCart }) => {
   return (
     <ItemStyledContainer>
       <ItemImgBlock>
-        <ItemImg src={item?.img} />
+        <SliderComponent>
+          {item.img.map((img) => (
+            <ItemImg src={img} />
+          ))}
+        </SliderComponent>
         <ItemPrice>{item.price}$</ItemPrice>
       </ItemImgBlock>
       <ItemDescriptionBlock>

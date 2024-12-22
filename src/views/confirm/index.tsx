@@ -57,7 +57,7 @@ export const ConfirmPage = () => {
               {cart.map((item) => (
                 <SummaryCartItemBlock key={item.id}>
                   <SummaryCartItemInfo>
-                    <img src={item.img} alt="" />
+                    <img src={item.titleImg} alt="" />
                     <SummaryCartItemField width="150px">
                       {item.title}
                     </SummaryCartItemField>

@@ -55,7 +55,7 @@ export const Cart: React.FC = () => {
                   <CartItemImg
                     height="100px"
                     width="100px"
-                    src={item.img}
+                    src={item.titleImg}
                     alt=""
                   />
                 </CartField>
