@@ -12,8 +12,6 @@ export interface CartItem extends Product {
 interface CartProps {
   cart: Array<CartItem>
   setCart: Dispatch<SetStateAction<Array<CartItem>>>
-  isInitialized: boolean
-  setIsInitialized: Dispatch<SetStateAction<boolean>>
   coupon?: CouponItem
   setCoupon: Dispatch<SetStateAction<CouponItem | undefined>>
 }
@@ -21,8 +19,6 @@ interface CartProps {
 const defaultCart: CartProps = {
   cart: [],
   setCart: () => {},
-  isInitialized: false,
-  setIsInitialized: () => {},
   coupon: undefined,
   setCoupon: () => {},
 }
@@ -33,24 +29,20 @@ export const CartContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const [coupon, setCoupon] = useState<CouponItem | undefined>(undefined)
-  const [cart, setCart] = useState<CartItem[]>([])
-  const [isInitialized, setIsInitialized] = useState(false)
-  console.log(cart)
-
-  useEffect(() => {
+  const [cart, setCart] = useState<CartItem[]>(() => {
     const storedData = getToSessionStorage(SessionStorage.cart)
 
     if (storedData) {
-      setCart(JSON.parse(storedData))
+      return JSON.parse(storedData)
     }
 
-    setIsInitialized(true)
-  }, [])
+    return []
+  })
+
+  console.log(cart)
 
   useEffect(() => {
-    if (isInitialized) {
-      setToSessionStorage(SessionStorage.cart, JSON.stringify(cart))
-    }
+    setToSessionStorage(SessionStorage.cart, JSON.stringify(cart))
   }, [cart])
 
   return (
@@ -60,8 +52,6 @@ export const CartContextProvider: React.FC<PropsWithChildren> = ({
         setCart,
         coupon,
         setCoupon,
-        isInitialized,
-        setIsInitialized,
       }}
     >
       {children}

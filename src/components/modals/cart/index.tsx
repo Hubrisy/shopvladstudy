@@ -25,7 +25,7 @@ import {
 
 export const Cart: React.FC = () => {
   const { setModal } = useModalContext()
-  const { cart, isInitialized } = useCartContext()
+  const { cart } = useCartContext()
 
   const { removeProduct, updateProduct } = useCart()
   const { summaryDiscount, summaryPrice, finalPrice } = useOrderSummary()
@@ -38,10 +38,6 @@ export const Cart: React.FC = () => {
     }
 
     setModal(undefined)
-  }
-
-  if (!isInitialized) {
-    return <h1>Loading...</h1>
   }
 
   return (

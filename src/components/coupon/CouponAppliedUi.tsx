@@ -1,6 +1,7 @@
 import type React from "react"
 
 import type { CouponItem } from "../../types"
+import { AppliedCouponBlock } from "./styled"
 
 interface Props {
   coupon: CouponItem
@@ -8,10 +9,10 @@ interface Props {
 }
 
 export const AppliedCoupon: React.FC<Props> = ({ coupon, removeCoupon }) => (
-  <div>
-    <h1>{coupon.code}</h1>
+  <AppliedCouponBlock>
+    <h1>Your coupon: {coupon.code}</h1>
     <button type="button" onClick={removeCoupon}>
-      Remove
+      Remove coupon
     </button>
-  </div>
+  </AppliedCouponBlock>
 )

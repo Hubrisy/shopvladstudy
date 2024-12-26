@@ -1,5 +1,7 @@
 import styled, { css } from "styled-components"
 
+import Bckg from "../../images/data/plantbckg3.jpg"
+
 interface FormDivProps {
   flexDirection?: string
   marginLeft?: string
@@ -24,10 +26,15 @@ export const ConfirmPageContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  /* margin-top: 50px; */
+  height: 97.7vh;
+  background-image: url(${Bckg});
+  background-repeat: no-repeat;
+  background-size: cover;
 `
 export const ConfrimPageBlock = styled.div`
   width: 1250px;
+  margin-top: 50px;
   h1 {
     font-family: Georgia, "Times New Roman", Times, serif;
     font-size: 24px;
@@ -102,7 +109,12 @@ export const FormBtnContainer = styled.div`
   display: flex;
   justify-content: center;
 
-  button {
+  .form-btn {
+    background-color: black;
+    color: white;
+  }
+
+  /* button {
     width: 90%;
     background-color: black;
     color: white;
@@ -110,7 +122,7 @@ export const FormBtnContainer = styled.div`
     font-size: 20px;
     border-radius: 10px;
     border: none;
-  }
+  } */
 `
 
 export const FinalSummaryContainer = styled.div`

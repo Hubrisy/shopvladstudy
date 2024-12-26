@@ -11,15 +11,15 @@ interface SliderProps {
   children: ReactNode
 }
 
-export const SliderComponent = ({ children }: SliderProps) => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  }
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+}
 
+export const SliderComponent: React.FC<SliderProps> = ({ children }) => {
   return (
     <SliderContainer>
       <Slider {...settings}>{children}</Slider>

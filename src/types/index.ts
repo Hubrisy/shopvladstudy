@@ -1,5 +1,6 @@
 export enum SessionStorage {
   cart = "cart",
+  userData = "userData",
 }
 
 export interface Product {
@@ -17,4 +18,14 @@ export interface CouponItem {
   code: string
   discount: number
   type: "percentage" | "fixed"
+}
+
+export interface UserDataType {
+  firstName: string
+  lastName: string
+  streetAddress: string
+  apartment?: string
+  city: string
+  email: string
+  phone: string
 }

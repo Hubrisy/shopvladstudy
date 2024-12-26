@@ -24,3 +24,18 @@ export const CouponBlockStyled = styled.div`
     font-weight: 600;
   }
 `
+export const AppliedCouponBlock = styled.div`
+  margin-top: 20px;
+
+  button {
+    height: 40px;
+    width: 150px;
+    border: none;
+    background-color: #808080d0;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+    color: white;
+  }
+`

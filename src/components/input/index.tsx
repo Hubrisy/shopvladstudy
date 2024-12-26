@@ -12,8 +12,14 @@ export const Input: React.FC<InputProps> = ({
   placeholder,
   onChange,
   value,
+  ...rest
 }) => {
   return (
-    <InputStyled placeholder={placeholder} onChange={onChange} value={value} />
+    <InputStyled
+      placeholder={placeholder}
+      onChange={onChange}
+      value={value}
+      {...rest}
+    />
   )
 }
