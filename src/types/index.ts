@@ -29,3 +29,5 @@ export interface UserDataType {
   email: string
   phone: string
 }
+
+export type ErrorType = boolean

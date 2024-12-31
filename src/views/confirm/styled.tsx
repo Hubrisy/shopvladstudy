@@ -27,7 +27,7 @@ export const ConfirmPageContainer = styled.div`
   display: flex;
   justify-content: center;
   /* margin-top: 50px; */
-  height: 97.7vh;
+  height: 100vh;
   background-image: url(${Bckg});
   background-repeat: no-repeat;
   background-size: cover;
@@ -97,12 +97,17 @@ export const FormDivStyled = styled.div<FormDivProps>`
     font-size: 16px;
     font-weight: 600;
     padding-left: 10px;
-    border: 1px solid grey;
     margin-top: 15px;
   }
   input + input {
     margin-left: ${(props) => props.marginLeft || 0};
   }
+`
+
+export const InputContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
 `
 export const FormBtnContainer = styled.div`
   margin-top: 25px;

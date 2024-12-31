@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import { Button } from "../../components/button"
 import { CouponBlock } from "../../components/coupon"
@@ -6,7 +7,9 @@ import { Input } from "../../components/input"
 import { useCartContext } from "../../context/cart"
 import { useUserDataContext } from "../../context/userData"
 import { useOrderSummary } from "../../hooks/useOrderSummary"
+import { Routes } from "../../routes"
 import type { UserDataType } from "../../types"
+import { emailValidation, validatePhoneNumber } from "../../utils/validation"
 import {
   ConfirmContentBlock,
   ConfirmPageContainer,
@@ -16,6 +19,7 @@ import {
   FormBlock,
   FormBtnContainer,
   FormDivStyled,
+  InputContainer,
   ShipparyBlock,
   SummaryBlock,
   SummaryCartBlock,
@@ -24,28 +28,67 @@ import {
   SummaryCartItemInfo,
 } from "./styled"
 
+type ErrorsType = Record<keyof UserDataType, string>
+
 export const ConfirmPage = () => {
   const { userData, setUserData } = useUserDataContext()
+
+  const [errors, setErrors] = useState<ErrorsType>(
+    Object.keys(userData).reduce(
+      (acc, key) => ({ ...acc, [key]: "" }),
+      {} as ErrorsType
+    )
+  )
+
   const { cart } = useCartContext()
   const { summaryDiscount, couponDiscount, finalPrice, summaryPrice } =
     useOrderSummary()
 
   const onChange = (name: keyof UserDataType, value: string) => {
     setUserData((prev) => ({ ...prev, [name]: value }))
+    setErrors((prev) => ({ ...prev, [name]: "" }))
   }
 
-  const checkValid = () => {
-    if (userData.firstName.length < 4) {
-      console.log("name too short")
-    } else {
-      console.log("nice name buddy")
+  const navigate = useNavigate()
+
+  const checkValid = (): boolean => {
+    const innerErrors: ErrorsType = Object.keys(userData).reduce(
+      (acc, key) => ({ ...acc, [key]: "" }),
+      {} as ErrorsType
+    )
+
+    // todo: add validation for all input
+    if (userData.firstName.length < 4 || userData.firstName.length > 20) {
+      innerErrors.firstName =
+        "Your name should be less than 7 letters and larger than 4"
     }
+
+    if (userData.lastName.length < 4 || userData.lastName.length > 20) {
+      innerErrors.lastName = "Your last name is less then 4"
+    }
+
+    if (!emailValidation(userData.email)) {
+      innerErrors.email = "your email is wrong"
+      console.log("no")
+    }
+
+    if (!validatePhoneNumber(userData.phone)) {
+      innerErrors.phone = "something wrong with your number"
+    }
+
+    setErrors(innerErrors)
+
+    return Object.values(innerErrors).every((value) => value === "")
   }
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.stopPropagation()
     e.preventDefault()
-    console.log("form submited", userData)
+
+    if (checkValid()) {
+      console.log("Form submitted:", userData)
+      navigate(Routes.thankspage)
+    }
   }
 
   return (
@@ -58,22 +101,32 @@ export const ConfirmPage = () => {
               <h3>Shipping details</h3>
               <form onSubmit={onSubmit}>
                 <FormDivStyled gap="8px">
-                  <Input
-                    name="name"
-                    placeholder="First Name"
-                    value={userData.firstName}
-                    onChange={(e) => onChange("firstName", e.target.value)}
-                    inputMode="text"
-                    required
-                  />
-                  <Input
-                    name="lastName"
-                    placeholder="Last Name"
-                    value={userData.lastName}
-                    onChange={(e) => onChange("lastName", e.target.value)}
-                    inputMode="text"
-                    required
-                  />
+                  <InputContainer>
+                    <Input
+                      name="name"
+                      placeholder="First Name"
+                      value={userData.firstName}
+                      onChange={(e) => onChange("firstName", e.target.value)}
+                      isError={!!errors.firstName}
+                      inputMode="text"
+                      errorMessage={errors.firstName}
+                      type="text"
+                      required
+                    />
+                  </InputContainer>
+                  <InputContainer>
+                    <Input
+                      name="lastName"
+                      placeholder="Last Name"
+                      value={userData.lastName}
+                      onChange={(e) => onChange("lastName", e.target.value)}
+                      isError={!!errors.lastName}
+                      errorMessage={errors.lastName}
+                      inputMode="text"
+                      type="text"
+                      required
+                    />
+                  </InputContainer>
                 </FormDivStyled>
                 <FormDivStyled flexDirection="column">
                   <Input
@@ -82,6 +135,7 @@ export const ConfirmPage = () => {
                     value={userData.streetAddress}
                     onChange={(e) => onChange("streetAddress", e.target.value)}
                     inputMode="text"
+                    type="text"
                     required
                   />
                   <Input
@@ -90,6 +144,7 @@ export const ConfirmPage = () => {
                     value={userData.apartment}
                     onChange={(e) => onChange("apartment", e.target.value)}
                     inputMode="text"
+                    type="text"
                   />
                   <Input
                     name="city"
@@ -97,6 +152,7 @@ export const ConfirmPage = () => {
                     value={userData.city}
                     onChange={(e) => onChange("city", e.target.value)}
                     inputMode="text"
+                    type="text"
                     required
                   />
                   <Input
@@ -105,6 +161,9 @@ export const ConfirmPage = () => {
                     value={userData.email}
                     onChange={(e) => onChange("email", e.target.value)}
                     inputMode="email"
+                    isError={!!errors.email}
+                    errorMessage={errors.email}
+                    type="email"
                     required
                   />
                   <Input
@@ -112,16 +171,15 @@ export const ConfirmPage = () => {
                     placeholder="Your number"
                     value={userData.phone}
                     onChange={(e) => onChange("phone", e.target.value)}
+                    isError={!!errors.phone}
+                    errorMessage={errors.phone}
                     inputMode="tel"
+                    type="tel"
                     required
                   />
                 </FormDivStyled>
                 <FormBtnContainer>
-                  <Button
-                    onClick={checkValid}
-                    type="submit"
-                    className="form-btn"
-                  >
+                  <Button type="submit" className="form-btn">
                     Confirm
                   </Button>
                 </FormBtnContainer>

@@ -63,7 +63,7 @@ export const InputBlock = styled.div`
   position: relative;
   z-index: 5;
 
-  & > input {
+  input {
     padding-left: 18px;
     font-size: 18px;
     color: rgba(30, 30, 30, 0.5);

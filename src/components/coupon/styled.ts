@@ -3,6 +3,8 @@ import styled from "styled-components"
 export const CouponBlockStyled = styled.div`
   margin-top: 50px;
   display: flex;
+  max-width: 480px;
+  justify-content: space-between;
 
   input {
     width: 100%;
