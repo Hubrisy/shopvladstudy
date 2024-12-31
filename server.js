@@ -101,6 +101,8 @@ server.post("/order/create", async (req, res) => {
         await client.query("ROLLBACK")
 
         return null
+      } finally {
+        client.release()
       }
     }
 
