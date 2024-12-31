@@ -1,0 +1,8 @@
+1. Install postgress and pgAdmin4
+2. Handle error from order/create api in the confirm page
+3. Show order id on the thankyou page
+4. Save coupon and coupon discount to order by creating new table
+
+Next steps:
+1. Create admin panel with signin
+2. Private api for getting orders inside admin panel;

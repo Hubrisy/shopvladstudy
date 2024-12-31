@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+import { api } from "../../apis"
 import { Button } from "../../components/button"
 import { CouponBlock } from "../../components/coupon"
 import { Input } from "../../components/input"
@@ -81,13 +82,23 @@ export const ConfirmPage = () => {
     return Object.values(innerErrors).every((value) => value === "")
   }
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.stopPropagation()
     e.preventDefault()
 
-    if (checkValid()) {
-      console.log("Form submitted:", userData)
-      navigate(Routes.thankspage)
+    try {
+      if (checkValid()) {
+        const orderId = await api.createOrder(userData, cart)
+
+        if (!orderId) {
+          throw new Error("Something went wrong")
+        }
+
+        navigate(Routes.thankspage)
+      }
+    } catch (e) {
+      console.log(e)
+      // ToDo: add error handling
     }
   }
 

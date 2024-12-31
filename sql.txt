@@ -1,0 +1,29 @@
+CREATE DATABASE vovashop;
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    street_address TEXT,
+    apartment TEXT,
+    city TEXT,
+    email TEXT,
+    phone TEXT
+);
+
+CREATE TABLE order_items (
+    id SERIAL PRIMARY KEY,
+    title TEXT,
+    price NUMERIC,
+    amount INTEGER,
+    order_id INTEGER,
+    FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
+CREATE TABLE order_coupon (
+    id SERIAL PRIMARY KEY,
+    code TEXT,
+    discount numeric,
+    order_id INTEGER,
+    FOREIGN KEY (order_id) REFERENCES orders(id)
+);
