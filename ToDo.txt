@@ -5,4 +5,4 @@
 
 Next steps:
 1. Create admin panel with signin
-2. Private api for getting orders inside admin panel;
+2. Private api for getting orders inside admin panel

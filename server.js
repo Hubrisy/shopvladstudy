@@ -10,7 +10,7 @@ const db = new Pool({
   port: 5432,
   host: "localhost",
   user: "postgres",
-  password: "Qazwsx123",
+  password: "password",
   database: "vovashop",
   ssl: false,
 })
