@@ -36,8 +36,20 @@ CREATE TABLE coupons (
     coupon_id INTEGER,
 );
 
-CREATE TABLE personal_cabinet (
+CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    email TEXT,
+    email TEXT UNIQUE,
     password TEXT,
-)
+    role TEXT
+);
+
+INSERT INTO users(email, password, role)
+VALUES('email@email.com', 'password', 'admin');
+
+CREATE TABLE sessions (
+    id SERIAL PRIMARY KEY,
+    token TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

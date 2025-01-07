@@ -12,6 +12,11 @@
 1.Сохранить купон из конфирм пейджа в сессион сторедж
 2.Создать в бд таблицу юзер с полями юзер нейм эмейл пароль, заходить в форму по данным с бд
 
+1. Redirect user from admin page to login in case of invalid token
+2. Redirect user from login page to admin in case of valid token
+3. Prevent not authorized access to admin page (without token or with invalid token)
+4. Log out button inside admin page (remove session token from db)
+
 Next steps:
 1. Create admin panel with signin
 2. Private api for getting orders inside admin panel

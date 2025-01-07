@@ -28,28 +28,79 @@ server.get("/", (req, res) => {
 })
 
 // eslint-disable-next-line consistent-return
-server.post("/account", async (req, res) => {
-  const { email, password } = req.body
-
+server.post("/auth/login", async (req, res) => {
   try {
-    const emailValid = await db
-      .query(`SELECT * FROM personal_cabinet WHERE email='${email}';`)
-      .then((result) => result.rows[0])
+    const { email, password } = req.body
 
-    const passValid = await db
-      .query(`SELECT * FROM personal_cabinet WHERE password='${password}';`)
-      .then((result) => result.rows[0])
+    if (!email || !password) {
+      res.status(400).json({ error: "Invalid values" }).end()
 
-    if (!emailValid || !passValid) {
-      return res.status(404).json({ error: "Invalid email or password" }).end()
+      return
     }
 
-    return res.status(200).json({ emailValid, passValid }).end() // Используйте return, чтобы завершить функцию
+    const user = await db
+      .query(
+        `
+        SELECT * 
+        FROM users
+        WHERE email=LOWER('${email}') AND password='${password}';
+      `,
+      )
+      .then((result) => result.rows[0])
+
+    if (!user) {
+      res.status(404).json({ error: "Invalid email or password" }).end()
+
+      return
+    }
+
+    const token = await db
+      .query(
+        `
+        INSERT INTO sessions (token, created_at, user_id)
+        VALUES (gen_random_uuid(), NOW(), ${user.id})
+        RETURNING token;
+      `,
+      )
+      .then((result) => result.rows[0].token)
+
+    res.status(200).json({ token }).end() // Используйте return, чтобы завершить функцию
   } catch (e) {
     console.error(e)
-    if (!res.headersSent) {
-      return res.status(500).json({ error: "Server error" }).end() // Используйте return, чтобы завершить функцию
+    res.status(500).json({ error: "Server error" }).end()
+  }
+})
+
+server.get("/user", async (req, res) => {
+  try {
+    const token = req.headers.authorization
+
+    if (!token) {
+      res.status(400).json({ error: "Invalid token" }).end()
+
+      return
     }
+
+    const user = await db
+      .query(
+        `
+        SELECT users.id, users.email
+        FROM users JOIN sessions ON sessions.user_id = users.id
+        WHERE sessions.token='${token}' AND sessions.created_at > NOW() - INTERVAL '10 minutes';
+      `,
+      )
+      .then((result) => result.rows[0])
+
+    if (!user) {
+      res.status(404).json({ error: "Invalid token" }).end()
+
+      return
+    }
+
+    res.status(200).json(user).end()
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: "Server error" }).end()
   }
 })
 

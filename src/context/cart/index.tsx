@@ -64,10 +64,15 @@ export const CartContextProvider: React.FC<PropsWithChildren> = ({
   console.log(cart)
 
   useEffect(() => {
-    setToSessionStorage(SessionStorage.coupon, JSON.stringify(coupon))
+    setToSessionStorage(
+      SessionStorage.coupon,
+      coupon ? JSON.stringify(coupon) : ""
+    )
   }, [coupon])
 
   useEffect(() => {
+    if (!orderId) return
+
     setToSessionStorage(SessionStorage.orderId, String(orderId))
   }, [orderId])
 

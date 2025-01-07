@@ -3,6 +3,7 @@ export enum SessionStorage {
   userData = "userData",
   orderId = "orderId",
   coupon = "coupon",
+  token = "token",
 }
 
 export interface Product {
@@ -32,7 +33,7 @@ export interface UserDataType {
   phone: string
 }
 
-export interface PersonalCabinetType {
+export interface LoginRequestData {
   email: string
   password: string
 }

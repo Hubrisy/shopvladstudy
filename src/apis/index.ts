@@ -2,7 +2,7 @@ import axios from "axios"
 
 import { apiUrl } from "../config"
 import type { CartItem } from "../context/cart"
-import type { CouponItem, PersonalCabinetType, UserDataType } from "../types"
+import type { CouponItem, LoginRequestData, UserDataType } from "../types"
 
 export const api = {
   fetchCoupon: async (code: string) => {
@@ -26,12 +26,24 @@ export const api = {
 
     return data
   },
-  personalCabinet: async (signIn: PersonalCabinetType) => {
-    const { data } = await axios.post<PersonalCabinetType>(
-      `${apiUrl}account`,
-      signIn
+  login: async (data: LoginRequestData) => {
+    const response = await axios.post<{ token: string }>(
+      `${apiUrl}auth/login`,
+      data
     )
 
-    return data
+    return response.data
+  },
+  fetchUser: async (token: string) => {
+    const response = await axios.get<{ id: number; email: string }>(
+      `${apiUrl}user`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+
+    return response.data
   },
 }

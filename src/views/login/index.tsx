@@ -1,22 +1,26 @@
 import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import { api } from "../../apis"
 import { Button } from "../../components/button"
 import { Input } from "../../components/input"
-import type { PersonalCabinetType } from "../../types"
+import { Routes } from "../../routes"
+import { type LoginRequestData, SessionStorage } from "../../types"
+import { handleError } from "../../utils/error"
+import { setToSessionStorage } from "../../utils/storage"
 import {
   AdminPanelBlock,
   AdminPanelBtnBlock,
   AdminPanelContainer,
   AdminPanelInputBlock,
   AdminPanelInputContainer,
-  SuccessBlock,
 } from "./styled"
 
-export const AdminPanel = () => {
+export const Login = () => {
   const [mailValue, setMailValue] = useState("")
   const [passwordValue, setPasswordValue] = useState("")
-  const [isLogged, setIsLogged] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleMailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMailValue(e.target.value)
@@ -26,42 +30,36 @@ export const AdminPanel = () => {
     setPasswordValue(e.target.value)
   }
 
-  const onSubmit = async () => {
-    const signInData: PersonalCabinetType = {
-      email: mailValue,
-      password: passwordValue,
-    }
-
-    setIsLogged(false)
-
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-      const validCabinet = await api.personalCabinet(signInData)
+      e.preventDefault()
+      e.stopPropagation()
 
-      if (validCabinet) {
-        console.log("Login successful:", validCabinet)
-        setIsLogged(true)
-      } else {
-        console.log("Invalid email or password")
+      if (!mailValue || !passwordValue) {
+        return
       }
-    } catch (error) {
-      console.error("Error during login:", error)
-    }
 
-    setTimeout(() => {
-      setIsLogged(false)
-    }, 3000)
+      setIsLoading(true)
+
+      const signInData: LoginRequestData = {
+        email: mailValue,
+        password: passwordValue,
+      }
+
+      const response = await api.login(signInData)
+      setToSessionStorage(SessionStorage.token, response.token)
+      navigate(Routes.admin)
+    } catch (error) {
+      handleError(error)
+      setIsLoading(false)
+    }
   }
 
   return (
     <AdminPanelContainer>
-      {isLogged && (
-        <SuccessBlock>
-          <div>Success</div>
-        </SuccessBlock>
-      )}
       <AdminPanelBlock>
         <h1>Sign in</h1>
-        <AdminPanelInputContainer>
+        <AdminPanelInputContainer as="form" onSubmit={onSubmit}>
           <AdminPanelInputBlock>
             <h3>Email*</h3>
             <Input
@@ -73,6 +71,7 @@ export const AdminPanel = () => {
           <AdminPanelInputBlock>
             <h3>Password*</h3>
             <Input
+              type="password"
               placeholder="Password"
               value={passwordValue}
               onChange={handlePassValue}
@@ -82,10 +81,12 @@ export const AdminPanel = () => {
             <h3>Username*</h3>
             <Input placeholder="Username" />
           </AdminPanelInputBlock> */}
+          <AdminPanelBtnBlock>
+            <Button type="submit" disabled={isLoading}>
+              Sign in
+            </Button>
+          </AdminPanelBtnBlock>
         </AdminPanelInputContainer>
-        <AdminPanelBtnBlock>
-          <Button onClick={onSubmit}>Sign up</Button>
-        </AdminPanelBtnBlock>
       </AdminPanelBlock>
     </AdminPanelContainer>
   )

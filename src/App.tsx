@@ -27,9 +27,15 @@ const ThanksPage = React.lazy(() =>
     default: module.ThanksPage,
   }))
 )
-const AdminPanel = React.lazy(() =>
-  import("./views/adminPanel").then((module) => ({
-    default: module.AdminPanel,
+const Login = React.lazy(() =>
+  import("./views/login").then((module) => ({
+    default: module.Login,
+  }))
+)
+
+const Admin = React.lazy(() =>
+  import("./views/admin").then((module) => ({
+    default: module.Admin,
   }))
 )
 
@@ -39,7 +45,8 @@ function App() {
   const isConfirmPage =
     location.pathname === RoutesEnum.confirm ||
     location.pathname === RoutesEnum.thankspage ||
-    location.pathname === RoutesEnum.adminpanel
+    location.pathname === RoutesEnum.login ||
+    location.pathname === RoutesEnum.admin
 
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
@@ -55,7 +62,8 @@ function App() {
                 element={<ProductPage />}
               />
               <Route path={RoutesEnum.thankspage} element={<ThanksPage />} />
-              <Route path={RoutesEnum.adminpanel} element={<AdminPanel />} />
+              <Route path={RoutesEnum.login} element={<Login />} />
+              <Route path={RoutesEnum.admin} element={<Admin />} />
             </Routes>
           </AppWrapper>
           <Modals />
