@@ -11,18 +11,17 @@ import {
   ThanksFinalPrice,
   ThanksItem,
   ThanksItemBlock,
+  ThanksOrderId,
   ThanksPageBlock,
   ThanksPageContainer,
   ThanksUserInfoBlock,
 } from "./styled"
 
 export const ThanksPage = () => {
-  const { cart } = useCartContext()
+  const { cart, coupon, orderId } = useCartContext()
   const { userData } = useUserDataContext()
 
   const { finalPrice } = useOrderSummary()
-
-  // const userDataArr: Array<string> = []
 
   const userDataArr = Object.entries(userData)
   console.log("obj", userDataArr)
@@ -31,6 +30,7 @@ export const ThanksPage = () => {
     <ThanksPageContainer>
       <ThanksPageBlock>
         <div>Thank you for your purchasement ♡</div>
+        <ThanksOrderId>Your order number is: 0{orderId}</ThanksOrderId>
         <ThanksCartContainer>
           <ThanksUserInfoBlock>
             {userDataArr.map(([key, value]) => (
@@ -57,6 +57,7 @@ export const ThanksPage = () => {
                 <ThanksItem fontSize="22px">
                   {item.price - item.discount}$
                 </ThanksItem>
+                <ThanksItem>Your coupon: {coupon?.code}</ThanksItem>
               </ThanksItemBlock>
             </ThanksCartOrderBlock>
           ))}

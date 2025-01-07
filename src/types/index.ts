@@ -1,6 +1,8 @@
 export enum SessionStorage {
   cart = "cart",
   userData = "userData",
+  orderId = "orderId",
+  coupon = "coupon",
 }
 
 export interface Product {
@@ -28,6 +30,11 @@ export interface UserDataType {
   city: string
   email: string
   phone: string
+}
+
+export interface PersonalCabinetType {
+  email: string
+  password: string
 }
 
 export type ErrorType = boolean

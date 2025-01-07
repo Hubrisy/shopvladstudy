@@ -33,6 +33,7 @@ type ErrorsType = Record<keyof UserDataType, string>
 
 export const ConfirmPage = () => {
   const { userData, setUserData } = useUserDataContext()
+  const { setOrderId } = useCartContext()
 
   const [errors, setErrors] = useState<ErrorsType>(
     Object.keys(userData).reduce(
@@ -41,7 +42,7 @@ export const ConfirmPage = () => {
     )
   )
 
-  const { cart } = useCartContext()
+  const { cart, coupon } = useCartContext()
   const { summaryDiscount, couponDiscount, finalPrice, summaryPrice } =
     useOrderSummary()
 
@@ -58,7 +59,6 @@ export const ConfirmPage = () => {
       {} as ErrorsType
     )
 
-    // todo: add validation for all input
     if (userData.firstName.length < 4 || userData.firstName.length > 20) {
       innerErrors.firstName =
         "Your name should be less than 7 letters and larger than 4"
@@ -82,16 +82,22 @@ export const ConfirmPage = () => {
     return Object.values(innerErrors).every((value) => value === "")
   }
 
+  console.log(coupon)
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.stopPropagation()
     e.preventDefault()
 
     try {
       if (checkValid()) {
-        const orderId = await api.createOrder(userData, cart)
+        const orderId = await api.createOrder(userData, cart, coupon)
 
         if (!orderId) {
           throw new Error("Something went wrong")
+        }
+
+        if (orderId.orderId) {
+          setOrderId!(orderId.orderId)
         }
 
         navigate(Routes.thankspage)
@@ -238,7 +244,7 @@ export const ConfirmPage = () => {
               {!!couponDiscount && (
                 <FinalSummaryBlock color="red">
                   <div>Coupon discount:</div>
-                  <div>-{couponDiscount.toFixed(2)}$</div>
+                  <div>-${couponDiscount}$</div>
                 </FinalSummaryBlock>
               )}
               <FinalSummaryBlock>

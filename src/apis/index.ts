@@ -2,7 +2,7 @@ import axios from "axios"
 
 import { apiUrl } from "../config"
 import type { CartItem } from "../context/cart"
-import type { CouponItem, UserDataType } from "../types"
+import type { CouponItem, PersonalCabinetType, UserDataType } from "../types"
 
 export const api = {
   fetchCoupon: async (code: string) => {
@@ -10,13 +10,26 @@ export const api = {
 
     return data
   },
-  createOrder: async (shipping: UserDataType, items: Array<CartItem>) => {
+  createOrder: async (
+    shipping: UserDataType,
+    items: Array<CartItem>,
+    coupon?: CouponItem
+  ) => {
     const { data } = await axios.post<{ orderId: number }>(
       `${apiUrl}order/create`,
       {
         shipping,
         items,
+        coupon,
       }
+    )
+
+    return data
+  },
+  personalCabinet: async (signIn: PersonalCabinetType) => {
+    const { data } = await axios.post<PersonalCabinetType>(
+      `${apiUrl}account`,
+      signIn
     )
 
     return data

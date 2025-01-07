@@ -98,3 +98,8 @@ export const ThanksFinalPrice = styled.div`
   justify-content: end;
   font-size: 26px;
 `
+export const ThanksOrderId = styled.div`
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 20px;
+`

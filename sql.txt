@@ -27,3 +27,17 @@ CREATE TABLE order_coupon (
     order_id INTEGER,
     FOREIGN KEY (order_id) REFERENCES orders(id)
 );
+
+CREATE TABLE coupons (
+    id SERIAL PRIMARY KEY,
+    code TEXT UNIQUE,
+    discount numeric,
+    type TEXT,
+    coupon_id INTEGER,
+);
+
+CREATE TABLE personal_cabinet (
+    id SERIAL PRIMARY KEY,
+    email TEXT,
+    password TEXT,
+)

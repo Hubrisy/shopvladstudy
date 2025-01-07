@@ -14,6 +14,8 @@ interface CartProps {
   setCart: Dispatch<SetStateAction<Array<CartItem>>>
   coupon?: CouponItem
   setCoupon: Dispatch<SetStateAction<CouponItem | undefined>>
+  orderId?: number | undefined
+  setOrderId?: Dispatch<SetStateAction<number | undefined>>
 }
 
 const defaultCart: CartProps = {
@@ -21,6 +23,8 @@ const defaultCart: CartProps = {
   setCart: () => {},
   coupon: undefined,
   setCoupon: () => {},
+  orderId: undefined,
+  setOrderId: () => {},
 }
 
 const CartContext = createContext<CartProps>(defaultCart)
@@ -28,7 +32,25 @@ const CartContext = createContext<CartProps>(defaultCart)
 export const CartContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [coupon, setCoupon] = useState<CouponItem | undefined>(undefined)
+  const [coupon, setCoupon] = useState<CouponItem | undefined>(() => {
+    const storedData = getToSessionStorage(SessionStorage.coupon)
+
+    if (storedData) {
+      return JSON.parse(storedData)
+    }
+
+    return undefined
+  })
+  const [orderId, setOrderId] = useState<number | undefined>(() => {
+    const storedData = getToSessionStorage(SessionStorage.orderId)
+
+    if (storedData) {
+      return Number(storedData)
+    }
+
+    return undefined
+  })
+
   const [cart, setCart] = useState<CartItem[]>(() => {
     const storedData = getToSessionStorage(SessionStorage.cart)
 
@@ -42,6 +64,14 @@ export const CartContextProvider: React.FC<PropsWithChildren> = ({
   console.log(cart)
 
   useEffect(() => {
+    setToSessionStorage(SessionStorage.coupon, JSON.stringify(coupon))
+  }, [coupon])
+
+  useEffect(() => {
+    setToSessionStorage(SessionStorage.orderId, String(orderId))
+  }, [orderId])
+
+  useEffect(() => {
     setToSessionStorage(SessionStorage.cart, JSON.stringify(cart))
   }, [cart])
 
@@ -52,6 +82,8 @@ export const CartContextProvider: React.FC<PropsWithChildren> = ({
         setCart,
         coupon,
         setCoupon,
+        orderId,
+        setOrderId,
       }}
     >
       {children}

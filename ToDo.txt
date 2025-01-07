@@ -3,6 +3,15 @@
 3. Show order id on the thankyou page
 4. Save coupon and coupon discount to order by creating new table
 
+1.Округлить ордер дискаунт до 2 знаков после запятой(без toFixed)
+2.Сохранить ордер айди в контекст
+3.Создать в бд таблицу с купонами, в которых будет айди, и когда человек подтягивает купон, то я его забираю с бд(db.query)
+4.Форму личного кабинета
+
+
+1.Сохранить купон из конфирм пейджа в сессион сторедж
+2.Создать в бд таблицу юзер с полями юзер нейм эмейл пароль, заходить в форму по данным с бд
+
 Next steps:
 1. Create admin panel with signin
 2. Private api for getting orders inside admin panel

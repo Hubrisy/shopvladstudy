@@ -26,7 +26,7 @@ export const ConfirmPageContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   background-image: url(${Bckg});
   background-repeat: no-repeat;
   background-size: cover;

@@ -44,7 +44,9 @@ export const Header = () => {
               onClick={() => setModal(ModalType.cart)}
             />
           </CartImgBlock>
-          <StyledImg src={User} alt="user" />
+          <StyledLink to="/adminpanel">
+            <StyledImg src={User} alt="user" />
+          </StyledLink>
         </UserBlock>
       </HeaderStyled>
     </HeaderContainer>

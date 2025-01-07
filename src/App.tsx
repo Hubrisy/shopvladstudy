@@ -7,7 +7,6 @@ import { Modals } from "./components/modals"
 import { Routes as RoutesEnum } from "./routes"
 import { StateProvider } from "./state"
 import { theme } from "./theme"
-import { ThanksPage } from "./views/thanks"
 
 const AppWrapper = styled.div`
   position: relative;
@@ -23,13 +22,24 @@ const Home = React.lazy(() =>
 const ConfirmPage = React.lazy(() =>
   import("./views/confirm").then((module) => ({ default: module.ConfirmPage }))
 )
+const ThanksPage = React.lazy(() =>
+  import("./views/thanks").then((module) => ({
+    default: module.ThanksPage,
+  }))
+)
+const AdminPanel = React.lazy(() =>
+  import("./views/adminPanel").then((module) => ({
+    default: module.AdminPanel,
+  }))
+)
 
 function App() {
   const location = useLocation()
 
   const isConfirmPage =
     location.pathname === RoutesEnum.confirm ||
-    location.pathname === RoutesEnum.thankspage
+    location.pathname === RoutesEnum.thankspage ||
+    location.pathname === RoutesEnum.adminpanel
 
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
@@ -45,6 +55,7 @@ function App() {
                 element={<ProductPage />}
               />
               <Route path={RoutesEnum.thankspage} element={<ThanksPage />} />
+              <Route path={RoutesEnum.adminpanel} element={<AdminPanel />} />
             </Routes>
           </AppWrapper>
           <Modals />
