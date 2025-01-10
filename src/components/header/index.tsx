@@ -4,6 +4,7 @@ import { useCartContext } from "../../context/cart"
 import { ModalType, useModalContext } from "../../context/modal"
 import Cart from "../../images/logo_block/cart.png"
 import User from "../../images/logo_block/user.png"
+import { Routes } from "../../routes"
 import { StyledLink } from "../catalog/styled"
 import {
   CartHaveItem,
@@ -44,7 +45,7 @@ export const Header = () => {
               onClick={() => setModal(ModalType.cart)}
             />
           </CartImgBlock>
-          <StyledLink to="/adminpanel">
+          <StyledLink to={Routes.login}>
             <StyledImg src={User} alt="user" />
           </StyledLink>
         </UserBlock>

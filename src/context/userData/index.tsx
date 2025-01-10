@@ -7,6 +7,8 @@ import { getToSessionStorage, setToSessionStorage } from "../../utils/storage"
 interface UserDataContextType {
   userData: UserDataType
   setUserData: Dispatch<SetStateAction<UserDataType>>
+  userToken: string
+  setUserToken: Dispatch<SetStateAction<string>>
 }
 
 const defaultUserData = {
@@ -22,6 +24,8 @@ const defaultUserData = {
 const defaultUserDataContext: UserDataContextType = {
   userData: defaultUserData,
   setUserData: () => {},
+  userToken: "",
+  setUserToken: () => {},
 }
 
 const UserDataContext = createContext(defaultUserDataContext)
@@ -39,6 +43,8 @@ export const UserDataContextProvider: React.FC<PropsWithChildren> = ({
     return defaultUserData
   })
 
+  const [userToken, setUserToken] = useState("")
+
   useEffect(() => {
     setToSessionStorage(SessionStorage.userData, JSON.stringify(userData))
   }, [userData])
@@ -46,7 +52,9 @@ export const UserDataContextProvider: React.FC<PropsWithChildren> = ({
   // console.log(userData)
 
   return (
-    <UserDataContext.Provider value={{ userData, setUserData }}>
+    <UserDataContext.Provider
+      value={{ userData, setUserData, userToken, setUserToken }}
+    >
       {children}
     </UserDataContext.Provider>
   )

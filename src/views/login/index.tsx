@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { api } from "../../apis"
@@ -7,7 +7,7 @@ import { Input } from "../../components/input"
 import { Routes } from "../../routes"
 import { type LoginRequestData, SessionStorage } from "../../types"
 import { handleError } from "../../utils/error"
-import { setToSessionStorage } from "../../utils/storage"
+import { getToSessionStorage, setToSessionStorage } from "../../utils/storage"
 import {
   AdminPanelBlock,
   AdminPanelBtnBlock,
@@ -54,6 +54,14 @@ export const Login = () => {
       setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    const token = getToSessionStorage(SessionStorage.token)
+
+    if (token) {
+      navigate(Routes.admin)
+    }
+  }, [])
 
   return (
     <AdminPanelContainer>

@@ -71,6 +71,29 @@ server.post("/auth/login", async (req, res) => {
   }
 })
 
+server.delete("/auth/logout", async (req, res) => {
+  try {
+    const token = req.headers.authorization
+
+    if (!token) {
+      res.status(400).json({ error: "Token is required" }).end()
+      return
+    }
+
+    await db.query(
+      `
+      DELETE FROM sessions
+      WHERE token = '${token}';
+      `,
+    )
+
+    res.status(200).json({ message: "Logout successful" }).end()
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: "Server error" }).end()
+  }
+})
+
 server.get("/user", async (req, res) => {
   try {
     const token = req.headers.authorization

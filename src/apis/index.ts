@@ -34,6 +34,16 @@ export const api = {
 
     return response.data
   },
+  logout: async (token: string) => {
+    const response = await axios.delete(`${apiUrl}auth/logout`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+
+    return response.data
+  },
+
   fetchUser: async (token: string) => {
     const response = await axios.get<{ id: number; email: string }>(
       `${apiUrl}user`,

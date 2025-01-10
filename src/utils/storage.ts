@@ -16,3 +16,11 @@ export const getToSessionStorage = (key: SessionStorage) => {
     handleError(e)
   }
 }
+
+export const removeFromSessionStorage = (key: SessionStorage) => {
+  try {
+    sessionStorage.removeItem(key)
+  } catch (e) {
+    handleError(e)
+  }
+}
