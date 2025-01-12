@@ -42,6 +42,9 @@ export interface ResponseOrderItemType {
   city: string
   email: string
   phone: string
+  initial: string
+  discount: string
+  total: string
 }
 
 export interface LoginRequestData {

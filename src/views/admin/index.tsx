@@ -51,6 +51,7 @@ export const Admin: React.FC = () => {
         setIsLoading(false)
       } catch (error) {
         handleError(error)
+        removeFromSessionStorage(SessionStorage.token)
         navigate(Routes.login)
       }
     }

@@ -27,7 +27,7 @@ server.get("/", (req, res) => {
   res.send("Hello World")
 })
 
-server.get("/admin/orders", async (req, res) => {
+const authMiddleware = async (req, res, next) => {
   try {
     const token = req.headers.authorization
 
@@ -41,7 +41,7 @@ server.get("/admin/orders", async (req, res) => {
       .query(
         `SELECT * 
         FROM sessions 
-        WHERE token='${token}' AND sessions.created_at > NOW() - INTERVAL '1000 minutes';`,
+        WHERE token='${token}' AND sessions.created_at > NOW() - INTERVAL '60 minutes';`,
       )
       .then((result) => result.rows[0])
 
@@ -51,8 +51,29 @@ server.get("/admin/orders", async (req, res) => {
       return
     }
 
+    next()
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: "Server error" }).end()
+  }
+}
+
+server.get("/admin/orders", authMiddleware, async (_req, res) => {
+  try {
     const orders = await db
-      .query(`SELECT * FROM orders;`)
+      .query(
+        `
+          SELECT orders.id, orders.first_name, orders.last_name, orders.street_address, 
+            orders.apartment, orders.city, orders.email, orders.phone,
+            SUM(order_items.amount * order_items.price) AS initial, 
+            COALESCE(order_coupon.discount, 0) AS discount,
+            SUM(order_items.amount * order_items.price) - COALESCE(order_coupon.discount, 0) AS total
+          FROM orders 
+            INNER JOIN order_items ON orders.id = order_items.order_id 
+            LEFT JOIN order_coupon ON orders.id = order_coupon.order_id
+          GROUP BY orders.id, order_coupon.discount;
+        `,
+      )
       .then((result) => result.rows)
 
     res.status(200).json(orders).end()
@@ -129,28 +150,22 @@ server.delete("/auth/logout", async (req, res) => {
   }
 })
 
-server.get("/admin/user", async (req, res) => {
+server.get("/admin/user", authMiddleware, async (req, res) => {
   try {
     const token = req.headers.authorization
-
-    if (!token) {
-      res.status(400).json({ error: "Invalid token" }).end()
-
-      return
-    }
 
     const user = await db
       .query(
         `
         SELECT users.id, users.email
         FROM users JOIN sessions ON sessions.user_id = users.id
-        WHERE sessions.token='${token}' AND sessions.created_at > NOW() - INTERVAL '1000 minutes';
+        WHERE sessions.token='${token}';
       `,
       )
       .then((result) => result.rows[0])
 
     if (!user) {
-      res.status(404).json({ error: "Invalid token" }).end()
+      res.status(404).json({ error: "User not found" }).end()
 
       return
     }
@@ -191,18 +206,23 @@ server.post("/order/create", async (req, res) => {
 
       return
     }
+
     const saveOrderToDB = async () => {
       const client = await db.connect()
 
       try {
         await client.query("BEGIN")
 
-        const validCoupon = await client
-          .query(`SELECT * FROM coupons WHERE code='${coupon.code}';`)
-          .then((result) => result.rows[0])
+        let validCoupon = null
 
-        if (!validCoupon) {
-          throw new Error("coupon does not exist")
+        if (coupon) {
+          validCoupon = await client
+            .query(`SELECT * FROM coupons WHERE code='${coupon.code}';`)
+            .then((result) => result.rows[0])
+
+          if (!validCoupon) {
+            throw new Error("coupon does not exist")
+          }
         }
 
         const order = await client
@@ -264,6 +284,8 @@ server.post("/order/create", async (req, res) => {
 
     if (!orderId) {
       res.status(500).json({ error: "Failed to create order" }).end()
+
+      return
     }
 
     res.status(200).json({ orderId }).end()

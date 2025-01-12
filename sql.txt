@@ -32,8 +32,7 @@ CREATE TABLE coupons (
     id SERIAL PRIMARY KEY,
     code TEXT UNIQUE,
     discount numeric,
-    type TEXT,
-    coupon_id INTEGER,
+    type TEXT
 );
 
 CREATE TABLE users (
