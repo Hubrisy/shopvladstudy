@@ -33,6 +33,17 @@ export interface UserDataType {
   phone: string
 }
 
+export interface ResponseOrderItemType {
+  id: number
+  first_name: string
+  last_name: string
+  street_address: string
+  apartment?: string
+  city: string
+  email: string
+  phone: string
+}
+
 export interface LoginRequestData {
   email: string
   password: string

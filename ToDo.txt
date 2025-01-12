@@ -17,6 +17,9 @@
 3. Prevent not authorized access to admin page (without token or with invalid token)
 4. Log out button inside admin page (remove session token from db)
 
+1.Когда человек заходит в админку я вывожу сюда ордеры, с бд, вывести ордера с учетом скидок(orderTotal,ordedDiscount,orderTotal with couponDiscount)
+2.При клику на ордер перекидывает на новую пейджу с деталями заказа
+
 Next steps:
 1. Create admin panel with signin
 2. Private api for getting orders inside admin panel

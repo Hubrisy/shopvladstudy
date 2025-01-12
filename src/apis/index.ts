@@ -2,13 +2,30 @@ import axios from "axios"
 
 import { apiUrl } from "../config"
 import type { CartItem } from "../context/cart"
-import type { CouponItem, LoginRequestData, UserDataType } from "../types"
+import type {
+  CouponItem,
+  LoginRequestData,
+  ResponseOrderItemType,
+  UserDataType,
+} from "../types"
 
 export const api = {
   fetchCoupon: async (code: string) => {
     const { data } = await axios.get<CouponItem>(`${apiUrl}coupon/${code}`)
 
     return data
+  },
+  fetchOrders: async (token: string) => {
+    const response = await axios.get<Array<ResponseOrderItemType>>(
+      `${apiUrl}admin/orders`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    )
+
+    return response.data
   },
   createOrder: async (
     shipping: UserDataType,
@@ -46,7 +63,7 @@ export const api = {
 
   fetchUser: async (token: string) => {
     const response = await axios.get<{ id: number; email: string }>(
-      `${apiUrl}user`,
+      `${apiUrl}admin/user`,
       {
         headers: {
           Authorization: token,

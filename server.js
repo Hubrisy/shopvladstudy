@@ -27,6 +27,41 @@ server.get("/", (req, res) => {
   res.send("Hello World")
 })
 
+server.get("/admin/orders", async (req, res) => {
+  try {
+    const token = req.headers.authorization
+
+    if (!token) {
+      res.status(400).json({ error: "Invalid token" }).end()
+
+      return
+    }
+
+    const tokenValid = await db
+      .query(
+        `SELECT * 
+        FROM sessions 
+        WHERE token='${token}' AND sessions.created_at > NOW() - INTERVAL '1000 minutes';`,
+      )
+      .then((result) => result.rows[0])
+
+    if (!tokenValid) {
+      res.status(401).json({ message: "Not authorized" }).end()
+
+      return
+    }
+
+    const orders = await db
+      .query(`SELECT * FROM orders;`)
+      .then((result) => result.rows)
+
+    res.status(200).json(orders).end()
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: "Server error" }).end()
+  }
+})
+
 // eslint-disable-next-line consistent-return
 server.post("/auth/login", async (req, res) => {
   try {
@@ -94,7 +129,7 @@ server.delete("/auth/logout", async (req, res) => {
   }
 })
 
-server.get("/user", async (req, res) => {
+server.get("/admin/user", async (req, res) => {
   try {
     const token = req.headers.authorization
 
@@ -109,7 +144,7 @@ server.get("/user", async (req, res) => {
         `
         SELECT users.id, users.email
         FROM users JOIN sessions ON sessions.user_id = users.id
-        WHERE sessions.token='${token}' AND sessions.created_at > NOW() - INTERVAL '10 minutes';
+        WHERE sessions.token='${token}' AND sessions.created_at > NOW() - INTERVAL '1000 minutes';
       `,
       )
       .then((result) => result.rows[0])

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { api } from "../../apis"
+import { Button } from "../../components/button"
 import { useUserDataContext } from "../../context/userData"
 import { Routes } from "../../routes"
 import { SessionStorage } from "../../types"
@@ -10,9 +11,16 @@ import {
   getToSessionStorage,
   removeFromSessionStorage,
 } from "../../utils/storage"
+import { Orders } from "./Orders"
+import {
+  AdminPanelBlock,
+  AdminPanelContainer,
+  NavSection,
+  OrdersSection,
+} from "./styled"
 
 export const Admin: React.FC = () => {
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const { userToken, setUserToken } = useUserDataContext()
   const navigate = useNavigate()
 
@@ -30,7 +38,7 @@ export const Admin: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        setLoading(true)
+        setIsLoading(true)
 
         const token = getToSessionStorage(SessionStorage.token)
 
@@ -40,7 +48,7 @@ export const Admin: React.FC = () => {
 
         await api.fetchUser(token)
         setUserToken(token)
-        setLoading(false)
+        setIsLoading(false)
       } catch (error) {
         handleError(error)
         navigate(Routes.login)
@@ -50,16 +58,29 @@ export const Admin: React.FC = () => {
     fetchUser()
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden"
+
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [])
+
   if (isLoading) {
     return <h1>Loading...</h1>
   }
 
   return (
-    <div>
-      <h1>Admin</h1>
-      <button type="button" onClick={logout}>
-        Logout
-      </button>
-    </div>
+    <AdminPanelContainer>
+      <AdminPanelBlock>
+        <NavSection>
+          <h1>Admin</h1>
+        </NavSection>
+        <OrdersSection>
+          <Orders />
+          <Button onClick={logout}>Logout</Button>
+        </OrdersSection>
+      </AdminPanelBlock>
+    </AdminPanelContainer>
   )
 }
