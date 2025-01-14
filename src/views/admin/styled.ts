@@ -1,6 +1,8 @@
 import styled from "styled-components"
 
 export const AdminPanelContainer = styled.div`
+  position: relative;
+  z-index: 5;
   width: 100%;
   background-color: #c1dcdc;
   height: 100vh;
@@ -14,11 +16,23 @@ export const AdminPanelBlock = styled.div`
   background-color: white;
   border-radius: 10px;
   display: flex;
-  overflow: auto;
 `
 export const OrdersSection = styled.div`
   color: black;
   display: flex;
+  flex-direction: column;
+  width: 80%;
+  overflow: auto;
+  position: relative;
+`
+export const OrdersSectionTitleBlock = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  h1 {
+    margin: 0 auto;
+  }
 
   button {
     height: 30px;
@@ -26,8 +40,11 @@ export const OrdersSection = styled.div`
     width: 80px;
     margin-top: 10px;
     padding: 0;
+    position: absolute;
+    right: 10px;
   }
 `
+
 export const NavSection = styled.div`
   color: white;
   width: 20%;
@@ -37,4 +54,19 @@ export const NavSection = styled.div`
     text-align: center;
     margin-top: 10px;
   }
+`
+
+export const OrdersBlock = styled.div`
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 500px;
+  margin-bottom: 20px;
+`
+export const OrdersContent = styled.div`
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #c1dcdc;
+  cursor: pointer;
+  padding: 10px;
 `

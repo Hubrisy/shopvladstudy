@@ -10,6 +10,7 @@ import React, {
 
 export enum ModalType {
   "cart" = "cart",
+  "orders_panel" = "orders_panel",
 }
 
 interface ModalContextType {

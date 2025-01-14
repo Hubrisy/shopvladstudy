@@ -197,6 +197,21 @@ server.get("/coupon/:code", async (req, res) => {
   }
 })
 
+server.get("/admin/order/:id", authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const orderItems = await db
+      .query(`SELECT * FROM order_items WHERE order_id = ${id}`)
+      .then((result) => result.rows)
+
+    res.status(200).json(orderItems).end()
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: "Server error" }).end()
+  }
+})
+
 server.post("/order/create", async (req, res) => {
   try {
     const { shipping, items, coupon } = req.body

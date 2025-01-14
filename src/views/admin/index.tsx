@@ -17,6 +17,7 @@ import {
   AdminPanelContainer,
   NavSection,
   OrdersSection,
+  OrdersSectionTitleBlock,
 } from "./styled"
 
 export const Admin: React.FC = () => {
@@ -78,8 +79,11 @@ export const Admin: React.FC = () => {
           <h1>Admin</h1>
         </NavSection>
         <OrdersSection>
+          <OrdersSectionTitleBlock>
+            <h1>Orders</h1>
+            <Button onClick={logout}>Logout</Button>
+          </OrdersSectionTitleBlock>
           <Orders />
-          <Button onClick={logout}>Logout</Button>
         </OrdersSection>
       </AdminPanelBlock>
     </AdminPanelContainer>

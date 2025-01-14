@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react"
 
 import { api } from "../../apis"
+import { ModalType, useModalContext } from "../../context/modal"
+import { useOrderContext } from "../../context/order"
 import { useUserDataContext } from "../../context/userData"
 import type { ResponseOrderItemType } from "../../types"
 import { handleError } from "../../utils/error"
+import { OrdersBlock, OrdersContent } from "./styled"
 
 export const Orders: React.FC = () => {
   const { userToken } = useUserDataContext()
+  const { setModal } = useModalContext()
+  const { setOrder } = useOrderContext()
   const [orders, setOrders] = useState<Array<ResponseOrderItemType>>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -24,22 +29,27 @@ export const Orders: React.FC = () => {
     f()
   }, [])
 
+  const handleClick = (item: ResponseOrderItemType) => {
+    setOrder(item)
+    setModal(ModalType.orders_panel)
+  }
+
   return (
-    <div>
+    <OrdersBlock>
       {isLoading ? (
         <div>Loading...</div>
       ) : (
         <div>
           {orders.map((item) => (
-            <div key={item.id}>
+            <OrdersContent key={item.id} onClick={() => handleClick(item)}>
               <div>
                 {item.first_name} {item.last_name}
               </div>
               <div>{item.phone}</div>
-            </div>
+            </OrdersContent>
           ))}
         </div>
       )}
-    </div>
+    </OrdersBlock>
   )
 }

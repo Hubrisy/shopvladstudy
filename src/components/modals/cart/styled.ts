@@ -10,8 +10,6 @@ interface ICartImg {
 
 export const CartBlock = styled.div`
   width: 100%;
-  /* display: flex;
-  justify-content: center; */
   height: 100%;
   background-color: rgba(128, 128, 128, 0.723);
   position: fixed;

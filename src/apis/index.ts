@@ -43,6 +43,16 @@ export const api = {
 
     return data
   },
+  getOrder: async (id: number, token: string) => {
+    const response = await axios.get(`${apiUrl}admin/order/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+
+    return response.data
+  },
+
   login: async (data: LoginRequestData) => {
     const response = await axios.post<{ token: string }>(
       `${apiUrl}auth/login`,
